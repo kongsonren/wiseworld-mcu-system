@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能方案 - IOTOR 宜欧特</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 160px 40px 100px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .page-header p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 自动化概览 */
+        .overview-section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 60px;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 80px;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .overview-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .overview-number {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .overview-label {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* 核心流程 */
+        .flows-section {
+            padding: 100px 40px;
+            background: white;
+        }
+
+        .flows-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .flow-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 40px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .flow-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(102,126,234,0.15);
+        }
+
+        .flow-card h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flow-card .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .flow-card .status.active {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .flow-card .status.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .flow-card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .flow-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #e8ecf1;
+        }
+
+        .flow-stat {
+            text-align: center;
+        }
+
+        .flow-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .flow-stat-label {
+            font-size: 13px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* 自动化架构 */
+        .architecture-section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .architecture-diagram {
+            background: white;
+            border-radius: 16px;
+            padding: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .architecture-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .architecture-layer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .architecture-layer:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .architecture-layer:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .architecture-layer:nth-child(4) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .layer-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .layer-components {
+            display: flex;
+            gap: 15px;
+        }
+
+        .layer-component {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* 集成能力 */
+        .integration-section {
+            padding: 100px 40px;
+            background: white;
+        }
+
+        .integration-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .integration-card {
+            text-align: center;
+            padding: 40px 30px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .integration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .integration-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .integration-card h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .integration-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* 安全合规 */
+        .security-section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .security-item {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .security-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .security-item h4 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .security-item p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-light {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-light:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* 页脚 */
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 40px 30px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .overview-grid, .security-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .flow-grid, .integration-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 36px; }
+            .nav-links { display: none; }
+            .architecture-layer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">IOTOR 宜欧特</div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">关于我们</a></li>
+                <li><a href="products-public.html">产品与解决方案</a></li>
+                <li><a href="automation.html" class="active">智能方案</a></li>
+                <li><a href="contact.html">联系我们</a></li>
+                <li><a href="login.html">内部登录</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>智能方案</h1>
+        <p>完整的智能照明控制与系统集成方案</p>
+    </section>
+
+    <!-- 自动化概览 -->
+    <section class="overview-section">
+        <h2 class="section-title">方案核心能力</h2>
+        <p class="section-subtitle">用技术驱动照明智能化，用创新提升用户体验</p>
+        <div class="overview-grid">
+            <div class="overview-card">
+                <div class="overview-icon">🌈</div>
+                <div class="overview-number">1600 万</div>
+                <div class="overview-label">色彩选择</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">🎤</div>
+                <div class="overview-number">4+</div>
+                <div class="overview-label">语音平台支持</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">📱</div>
+                <div class="overview-number">2</div>
+                <div class="overview-label">控制方式 (WiFi/蓝牙)</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">🏠</div>
+                <div class="overview-number">50+</div>
+                <div class="overview-label">场景模式</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心流程 -->
+    <section class="flows-section">
+        <div class="flows-container">
+            <h2 class="section-title" style="margin-bottom: 50px;">智能控制方案</h2>
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <h3>
+                        <span>📱</span> APP 智能控制
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>通过手机 APP 实现远程控制、调色、调光、场景切换等功能，支持多设备联动。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">iOS/Android</div>
+                            <div class="flow-stat-label">平台支持</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">WiFi/蓝牙</div>
+                            <div class="flow-stat-label">连接方式</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">< 100ms</div>
+                            <div class="flow-stat-label">响应时间</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <h3>
+                        <span>🎤</span> 语音控制
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>支持 Alexa、Google Home、小爱同学等主流智能音箱，语音指令即可控制灯光。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">4+</div>
+                            <div class="flow-stat-label">平台支持</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">95%</div>
+                            <div class="flow-stat-label">识别准确率</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">< 1s</div>
+                            <div class="flow-stat-label">响应时间</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <h3>
+                        <span>🎵</span> 音乐律动模式
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>内置高灵敏度麦克风，灯光可随音乐节奏自动变化，打造沉浸式娱乐体验。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">5 档</div>
+                            <div class="flow-stat-label">灵敏度调节</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">6 种</div>
+                            <div class="flow-stat-label">律动模式</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">实时</div>
+                            <div class="flow-stat-label">同步响应</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <h3>
+                        <span>⏰</span> 定时场景
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>支持自定义定时开关、日出唤醒、日落助眠等场景，让生活更规律、更健康。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">不限</div>
+                            <div class="flow-stat-label">定时任务数</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">20+</div>
+                            <div class="flow-stat-label">预设场景</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">自定义</div>
+                            <div class="flow-stat-label">场景编辑</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <h3>
+                        <span>🎮</span> 游戏/影音联动
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>支持屏幕色彩同步、游戏场景联动，灯光随画面变化，沉浸感倍增。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">PC/主机</div>
+                            <div class="flow-stat-label">平台支持</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">实时</div>
+                            <div class="flow-stat-label">色彩同步</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">多区</div>
+                            <div class="flow-stat-label">分区控制</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <h3>
+                        <span>🔗</span> 多设备联动
+                        <span class="status active">运行正常</span>
+                    </h3>
+                    <p>支持多设备编组控制，可实现全屋灯光同步、分区控制、场景联动等功能。</p>
+                    <div class="flow-stats">
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">50+</div>
+                            <div class="flow-stat-label">单组设备数</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">不限</div>
+                            <div class="flow-stat-label">分组数量</div>
+                        </div>
+                        <div class="flow-stat">
+                            <div class="flow-stat-value">同步</div>
+                            <div class="flow-stat-label">联动响应</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 系统架构 -->
+    <section class="architecture-section">
+        <h2 class="section-title" style="margin-bottom: 50px;">系统技术架构</h2>
+        <div class="architecture-diagram">
+            <div class="architecture-layers">
+                <div class="architecture-layer">
+                    <span class="layer-name">📱 用户交互层</span>
+                    <div class="layer-components">
+                        <span class="layer-component">手机 APP</span>
+                        <span class="layer-component">智能音箱</span>
+                        <span class="layer-component">物理遥控器</span>
+                    </div>
+                </div>
+                <div class="architecture-layer">
+                    <span class="layer-name">🌐 通信协议层</span>
+                    <div class="layer-components">
+                        <span class="layer-component">WiFi 连接</span>
+                        <span class="layer-component">蓝牙 BLE</span>
+                        <span class="layer-component">MQTT 协议</span>
+                    </div>
+                </div>
+                <div class="architecture-layer">
+                    <span class="layer-name">💡 设备控制层</span>
+                    <div class="layer-components">
+                        <span class="layer-component">RGB 控制</span>
+                        <span class="layer-component">色温调节</span>
+                        <span class="layer-component">亮度调节</span>
+                        <span class="layer-component">场景模式</span>
+                    </div>
+                </div>
+                <div class="architecture-layer">
+                    <span class="layer-name">☁️ 云端服务层</span>
+                    <div class="layer-components">
+                        <span class="layer-component">用户认证</span>
+                        <span class="layer-component">设备管理</span>
+                        <span class="layer-component">数据存储</span>
+                        <span class="layer-component">远程控制</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 集成能力 -->
+    <section class="integration-section">
+        <h2 class="section-title" style="margin-bottom: 50px;">平台集成能力</h2>
+        <div class="integration-grid">
+            <div class="integration-card">
+                <div class="integration-icon">🎤</div>
+                <h3>智能音箱平台</h3>
+                <p>Alexa、Google Home、小爱同学、天猫精灵等主流平台无缝对接</p>
+            </div>
+            <div class="integration-card">
+                <div class="integration-icon">🏠</div>
+                <h3>智能家居系统</h3>
+                <p>支持 HomeKit、SmartThings 等智能家居生态系统集成</p>
+            </div>
+            <div class="integration-card">
+                <div class="integration-icon">📱</div>
+                <h3>第三方 APP</h3>
+                <p>提供开放 API，支持第三方应用集成与定制开发</p>
+            </div>
+            <div class="integration-card">
+                <div class="integration-icon">🎮</div>
+                <h3>游戏/影音平台</h3>
+                <p>与 PC 灯效软件、游戏主机、流媒体设备联动</p>
+            </div>
+            <div class="integration-card">
+                <div class="integration-icon">⏰</div>
+                <h3>智能日程系统</h3>
+                <p>支持 Google Calendar、Outlook 等日程应用联动</p>
+            </div>
+            <div class="integration-card">
+                <div class="integration-icon">☁️</div>
+                <h3>云服务平台</h3>
+                <p>AWS、Azure、阿里云等主流云平台部署支持</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 安全合规 -->
+    <section class="security-section">
+        <h2 class="section-title" style="margin-bottom: 50px;">安全与认证</h2>
+        <div class="security-grid">
+            <div class="security-item">
+                <div class="security-icon">🔒</div>
+                <h4>数据加密</h4>
+                <p>传输层 TLS 1.3<br>设备端 AES 加密</p>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">🛡️</div>
+                <h4>隐私保护</h4>
+                <p>本地控制优先<br>用户数据加密存储</p>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">📋</div>
+                <h4>产品认证</h4>
+                <p>CE/FCC/RoHS<br>3C 强制认证</p>
+            </div>
+            <div class="security-item">
+                <div class="security-icon">💡</div>
+                <h4>品质保证</h4>
+                <p>出厂 100% 测试<br>2 年质保服务</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>想了解智能照明方案如何为您的空间赋能？</h2>
+        <p>预约演示，亲身体验智能照明的魅力</p>
+        <a href="contact.html" class="btn btn-light">预约演示</a>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>IOTOR 宜欧特</h3>
+                <p>专注于 RGBCW 照明产品与智能灯控解决方案</p>
+                <p style="margin-top: 15px; font-size: 14px;">
+                    📍 中山总部：广东省中山市古镇镇庆丰 LED 商贸广场三期 B 栋 B-011 号<br>
+                    📞 0760-22964280 | 📱 0086-18025684110<br>
+                    📧 邮箱：info@iotors.com
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>产品</h4>
+                <ul>
+                    <li><a href="products-public.html">解决方案</a></li>
+                    <li><a href="automation.html">智能方案</a></li>
+                    <li><a href="products-public.html">产品中心</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>公司</h4>
+                <ul>
+                    <li><a href="about.html">关于我们</a></li>
+                    <li><a href="about.html">品牌故事</a></li>
+                    <li><a href="contact.html">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>支持</h4>
+                <ul>
+                    <li><a href="#">帮助中心</a></li>
+                    <li><a href="#">API 文档</a></li>
+                    <li><a href="#">状态监控</a></li>
+                </ul>
+            </div>
+            <div class="footer-qr">
+                <h4>扫码关注</h4>
+                <img src="images/qrcode.png" alt="IOTOR 官网二维码" style="width: 150px; height: 150px; margin-top: 10px; border: 1px solid #eee; border-radius: 8px;">
+                <p style="font-size: 12px; color: #666; margin-top: 8px;">扫码访问官网</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 IOTOR 宜欧特。All rights reserved. | 粤 ICP 备 XXXXXXXX 号</p>
+        </div>
+    </footer>
+</body>
+</html>

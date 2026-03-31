@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧世界科技 - 智能 MCU 解决方案专家</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #ff006e;
+            --bg-dark: #0a0e27;
+            --bg-card: #111642;
+            --bg-light: #1a1f5a;
+            --text-white: #ffffff;
+            --text-gray: #a0a0c0;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 粒子背景动画 */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.8); }
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--text-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Hero 区域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 50px 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1000px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: bold;
+            line-height: 1.2;
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-gray);
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .btn-primary {
+            padding: 18px 45px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 18px 45px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 30px;
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 数据统计区域 */
+        /* 轮播图区域 */
+        .carousel-section {
+            padding: 0 50px 80px;
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 500px;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 60px 50px 40px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        }
+
+        .carousel-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-desc {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 212, 255, 0.6);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: var(--primary);
+            width: 35px;
+            border-radius: 6px;
+        }
+
+        .stats-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.05));
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-number {
+            font-size: 56px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        /* 核心业务区域 */
+        .business-section {
+            padding: 100px 50px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .business-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .business-card {
+            background: var(--bg-card);
+            border-radius: 25px;
+            padding: 50px 35px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .business-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .business-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(0, 212, 255, 0.25);
+        }
+
+        .business-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .business-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255, 0, 110, 0.2));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        .business-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .business-desc {
+            font-size: 15px;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        /* 解决方案区域 */
+        .solutions-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent, rgba(255, 0, 110, 0.05));
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-light));
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 70px rgba(0, 212, 255, 0.2);
+        }
+
+        .solution-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.3));
+        }
+
+        .solution-content {
+            padding: 30px;
+        }
+
+        .solution-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .solution-desc {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .solution-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 6px 14px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 15px;
+            font-size: 12px;
+            color: var(--primary);
+        }
+
+        /* 客户案例 */
+        .cases-section {
+            padding: 100px 50px;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .case-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .case-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.15);
+        }
+
+        .case-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .case-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .case-desc {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* CTA 区域 */
+        .cta-section {
+            padding: 100px 50px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .cta-subtitle {
+            font-size: 18px;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: var(--bg-card);
+            padding: 60px 50px 30px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .stats-grid, .business-grid, .solutions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cases-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .stats-grid, .business-grid, .solutions-grid, .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title, .cta-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div class="particles-bg" id="particlesBg"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.jpg" alt="Logo" class="logo-icon">
+            <span class="logo-text">智慧世界科技</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#business">核心业务</a>
+            <a href="#solutions">解决方案</a>
+            <a href="#cases">客户案例</a>
+            <a href="#about">关于我们</a>
+            <a href="#contact">联系我们</a>
+        </div>
+        <a href="https://www.ds-imp.com" class="nav-btn">进入官网 →</a>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">🎉 智能 MCU 解决方案专家</div>
+            <h1 class="hero-title">
+                智慧物联的<br>
+                <span class="highlight">未来世界探索者</span>
+            </h1>
+            <p class="hero-subtitle">
+                专注嵌入式产品开发 | 云平台 | 微信小程序 | iOS/Android APP 全栈实践
+            </p>
+            <div class="hero-buttons">
+                <a href="#solutions" class="btn-primary">探索解决方案</a>
+                <a href="#contact" class="btn-secondary">联系我们</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 轮播图区域 -->
+    <section class="carousel-section">
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <img src="085ab9b4226028f23135cda1853e1698.jpg" alt="MCU 芯片">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">MCU 芯片系列</h3>
+                        <p class="carousel-desc">蓝牙 5.0/5.1/5.2/5.3/5.4 芯片、WiFi 芯片、Zigbee 模组</p>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="ff5505ff60e552a9b668022df7ce2d6c.jpg" alt="智能照明">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">智能照明方案</h3>
+                        <p class="carousel-desc">RGBCW 灯带、球泡灯、筒灯、吸顶灯全品类智能方案</p>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="unnamed.jpg" alt="宠物智能设备">
+                    <div class="carousel-caption">
+                        <h3 class="carousel-title">宠物智能设备</h3>
+                        <p class="carousel-desc">智能喂食器、饮水机、猫砂盆、宠物摄像头</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-btn prev" id="carouselPrev">❮</button>
+            <button class="carousel-btn next" id="carouselNext">❯</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">156</div>
+                <div class="stat-label">产品 SKU</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">服务行业</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">合作客户</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">客户满意度</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心业务 -->
+    <section class="business-section" id="business">
+        <div class="section-header">
+            <div class="section-badge">CORE BUSINESS</div>
+            <h2 class="section-title">核心业务</h2>
+            <p class="section-subtitle">提供从芯片到成品的完整解决方案，助力客户快速实现产品智能化</p>
+        </div>
+        <div class="business-grid">
+            <div class="business-card">
+                <div class="business-icon">💾</div>
+                <h3 class="business-title">MCU 芯片销售</h3>
+                <p class="business-desc">
+                    代理多家知名 MCU 原厂产品，提供蓝牙 5.0/5.1/5.2/5.3/5.4 芯片、WiFi 芯片、Zigbee 模组等，
+                    广泛应用于智能照明、小家电、宠物智能设备等领域。
+                </p>
+            </div>
+            <div class="business-card">
+                <div class="business-icon">🔧</div>
+                <h3 class="business-title">嵌入式开发</h3>
+                <p class="business-desc">
+                    专业的嵌入式软件开发团队，支持 ARM Cortex-M0/M3/M4/RISC-V 等架构，
+                    提供固件开发、驱动开发、协议栈开发等全流程服务。
+                </p>
+            </div>
+            <div class="business-card">
+                <div class="business-icon">☁️</div>
+                <h3 class="business-title">云平台对接</h3>
+                <p class="business-desc">
+                    对接涂鸦智能、天猫精灵、小爱同学、华为 HiLink 等主流 IoT 平台，
+                    实现设备远程控制、语音控制、场景联动等智能功能。
+                </p>
+            </div>
+            <div class="business-card">
+                <div class="business-icon">📱</div>
+                <h3 class="business-title">APP 开发</h3>
+                <p class="business-desc">
+                    微信小程序、iOS APP、Android APP 全平台支持，
+                    提供 UI 设计、前端开发、后端接口开发、测试上线一站式服务。
+                </p>
+            </div>
+            <div class="business-card">
+                <div class="business-icon">🎨</div>
+                <h3 class="business-title">方案设计</h3>
+                <p class="business-desc">
+                    根据客户需求提供定制化方案设计，包括硬件选型、软件架构、
+                    成本控制、生产导入等全方位技术支持。
+                </p>
+            </div>
+            <div class="business-card">
+                <div class="business-icon">🏭</div>
+                <h3 class="business-title">生产制造</h3>
+                <p class="business-desc">
+                    合作工厂支持 SMT 贴片、插件焊接、组装测试等生产服务，
+                    从样品打样到批量生产，全程质量把控。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 解决方案 -->
+    <section class="solutions-section" id="solutions">
+        <div class="section-header">
+            <div class="section-badge">SOLUTIONS</div>
+            <h2 class="section-title">行业解决方案</h2>
+            <p class="section-subtitle">深耕行业多年，为不同领域客户提供专业化、定制化的智能解决方案</p>
+        </div>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <div class="solution-image">💡</div>
+                <div class="solution-content">
+                    <h3 class="solution-title">智能照明方案</h3>
+                    <p class="solution-desc">
+                        RGBCW 灯带、球泡灯、筒灯、吸顶灯等全品类智能照明方案，
+                        支持蓝牙 Mesh、WiFi、Zigbee 多种协议，兼容主流 IoT 平台。
+                    </p>
+                    <div class="solution-tags">
+                        <span class="tag">蓝牙 Mesh</span>
+                        <span class="tag">WiFi</span>
+                        <span class="tag">Zigbee</span>
+                    </div>
+                </div>
+            </div>
+            <div class="solution-card">
+                <div class="solution-image">🏠</div>
+                <div class="solution-content">
+                    <h3 class="solution-title">小家电控制方案</h3>
+                    <p class="solution-desc">
+                        电风扇、加湿器、空气净化器、电饭煲等小家电智能控制方案，
+                        支持 APP 控制、语音控制、定时预约等智能功能。
+                    </p>
+                    <div class="solution-tags">
+                        <span class="tag">APP 控制</span>
+                        <span class="tag">语音控制</span>
+                        <span class="tag">定时预约</span>
+                    </div>
+                </div>
+            </div>
+            <div class="solution-card">
+                <div class="solution-image">🐱</div>
+                <div class="solution-content">
+                    <h3 class="solution-title">宠物智能设备</h3>
+                    <p class="solution-desc">
+                        智能喂食器、饮水机、猫砂盆、宠物摄像头等产品方案，
+                        支持远程喂养、健康监测、行为分析等功能。
+                    </p>
+                    <div class="solution-tags">
+                        <span class="tag">远程喂养</span>
+                        <span class="tag">健康监测</span>
+                        <span class="tag">行为分析</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section class="cases-section" id="cases">
+        <div class="section-header">
+            <div class="section-badge">CASES</div>
+            <h2 class="section-title">服务客户</h2>
+            <p class="section-subtitle">与众多行业领先企业建立深度合作，共同推动智能化升级</p>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-icon">🏢</div>
+                <div class="case-name">照明企业</div>
+                <div class="case-desc">佛山/中山 50+ 灯饰厂</div>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">🔌</div>
+                <div class="case-name">家电企业</div>
+                <div class="case-desc">珠三角 30+ 小家电厂</div>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">🐾</div>
+                <div class="case-name">宠物用品</div>
+                <div class="case-desc">智能宠物设备品牌</div>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">🏗️</div>
+                <div class="case-name">智能家居</div>
+                <div class="case-desc">全屋智能方案商</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA 区域 -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <h2 class="cta-title">开启智能化之旅</h2>
+            <p class="cta-subtitle">
+                无论您是初创企业还是成熟品牌，我们都能为您提供最适合的智能解决方案。<br>
+                立即联系我们，获取免费的技术咨询和方案报价。
+            </p>
+            <a href="mailto:info@wiseworld-tech.com" class="btn-primary">立即咨询</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer" id="about">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>智慧世界科技</h4>
+                <p>
+                    智慧世界：智慧物联的未来世界探索者。<br>
+                    唯智悟得：嵌入式产品开发，云平台，微信小程序，IOS-APP，安卓-APP，全栈实践者。<br>
+                    光能感动：光 - 智能照明，能 - 电源电池，感 - 传感互动，动 - 风扇电机的入局者。
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#business">核心业务</a></li>
+                    <li><a href="#solutions">解决方案</a></li>
+                    <li><a href="index.html">进入系统</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>核心业务</h4>
+                <ul>
+                    <li>MCU 芯片销售</li>
+                    <li>嵌入式开发</li>
+                    <li>云平台对接</li>
+                    <li>APP 开发</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>联系我们</h4>
+                <ul>
+                    <li>📍 深圳办事处：南山区</li>
+                    <li>📍 中山办事处：古镇镇</li>
+                    <li>📍 宁波办事处：鄞州区</li>
+                    <li>📍 华强北办事处：福田区</li>
+                    <li>📱 任光成 (Kongson Ren)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 智慧世界科技 版权所有
+        </div>
+    </footer>
+
+    <script>
+        // 生成粒子背景
+        function createParticles() {
+            const container = document.getElementById('particlesBg');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 轮播图功能
+        function initCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('carouselPrev');
+            const nextBtn = document.getElementById('carouselNext');
+            const dotsContainer = document.getElementById('carouselDots');
+            const slides = track.querySelectorAll('.carousel-slide');
+
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+
+            // 创建点指示器
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            }
+
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }
+
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+
+            // 按钮事件
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // 自动播放（5 秒切换）
+            setInterval(nextSlide, 5000);
+        }
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // 滚动时导航栏效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 14, 39, 0.98)';
+                navbar.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.3)';
+            } else {
+                navbar.style.background = 'rgba(10, 14, 39, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            initCarousel();
+        });
+    </script>
+</body>
+</html>

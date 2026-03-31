@@ -1,0 +1,39 @@
+# 临时文件
+.cowork-temp/
+*.log
+*.tmp
+
+# 编辑器
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 数据文件
+data/
+*.csv
+*.json
+
+# Node.js
+node_modules/
+foxmail-email-summary/
+
+# 其他临时文件
+1688*.html
+1688*.md
+1688*.txt
+1688*.py
+1688*.json
+*.ps1
+create-*.py
+create-*.js
+extract_*.py
+curl_response.html
+temp-*.txt
+C*.txt
+Users*.html
+
+# 子模块
+ds-imp/
